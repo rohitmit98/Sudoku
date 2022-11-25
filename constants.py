@@ -1,0 +1,10 @@
+width = 900
+height = 900
+square_size = 100
+row_length = 9
+col_height = 9
+line_color = 'black'
+line_width = 15
+val_font = 40
+color = (0, 0, 0)
+bg_color = (255, 167, 100, 255)
