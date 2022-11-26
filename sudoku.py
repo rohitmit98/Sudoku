@@ -1,16 +1,13 @@
 import pygame.time
 import buttons
-import board
 from sudoku_generator import *
+from board import *
 import sys
+from constants import *
 
 pygame.init()
 pygame.display.set_caption("Sudoku")
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-
-# game variables
-game_menu = True
-game_board = False
+screen = pygame.display.set_mode((WIDTH, 1000))
 
 # define fonts
 welcome_font = pygame.font.SysFont('Times New Roman', WELCOME_FONT)
@@ -49,13 +46,11 @@ def game_start():
 2. need to implement 2D board from sudoku_generator.py onto GUI in Board class. Unsure, how to accomplish yet.
 '''
 
+
 # start game by showing main menu
-
-
-running = True
-while running:
-
-    if game_menu:
+def menu():
+    game_menu = True
+    while game_menu is True:
         screen.fill(BG_COLOR)
         game_start()
         easy.create_button()
@@ -63,27 +58,106 @@ while running:
         hard.create_button()
 
         if easy.input():
+            easy_mode()
             game_menu = False
-            b = Board(900, 1000, screen, 'easy')
-            b.draw()
 
-        elif medium.input():
+        if medium.input():
+            medium_mode()
             game_menu = False
-            b = Board(900, 1000, screen, 'medium')
-            b.draw()
 
-        elif hard.input():
+        if hard.input():
+            hard_mode()
             game_menu = False
-            game_board = True
-            if game_board:
-                b = Board(900, 1000, screen, 'hard')
-                b.draw()
 
-    # event handler
-    for event in pygame.event.get():
+        # event handler
+        for event in pygame.event.get():
 
-        if event.type == pygame.QUIT:
-            pygame.quit()
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
+        pygame.display.update()
+
+
+def easy_mode():
+    easy_mode = True
+    while easy_mode is True:
+        screen.fill(BG_COLOR)
+        easy_board = Board(900, 1000, screen, "easy")
+        easy_board.draw()
+
+        reset.create_button()
+        restart.create_button()
+        if restart.input():
+            menu()
+            easy_mode = False
+
+        exit_.create_button()
+        if exit_.input():
             sys.exit()
 
-    pygame.display.update()
+        for event in pygame.event.get():
+
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
+        pygame.display.update()
+
+
+def medium_mode():
+    medium_mode = True
+    while medium_mode is True:
+        screen.fill(BG_COLOR)
+        medium_board = Board(900, 1000, screen, "medium")
+        medium_board.draw()
+
+        reset.create_button()
+
+        restart.create_button()
+        if restart.input():
+            menu()
+            medium_mode = False
+
+        exit_.create_button()
+        if exit_.input():
+            sys.exit()
+
+        for event in pygame.event.get():
+
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
+        pygame.display.update()
+
+def hard_mode():
+    hard_mode = True
+    while hard_mode is True:
+        screen.fill(BG_COLOR)
+        hard_board = Board(900, 1000, screen, "medium")
+        hard_board.draw()
+
+        reset.create_button()
+
+        restart.create_button()
+        if restart.input():
+            menu()
+            hard_mode = False
+
+        exit_.create_button()
+        if exit_.input():
+            sys.exit()
+
+        for event in pygame.event.get():
+
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
+        pygame.display.update()
+
+def winner():
+    pass
+
+menu()

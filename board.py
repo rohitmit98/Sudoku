@@ -1,4 +1,6 @@
-from cell import *
+import pygame
+from constants import *
+from sudoku_generator import *
 
 
 # adam v - a
@@ -13,8 +15,7 @@ class Board:
 
         self.width = width
         self.height = height
-        self.screen = pygame.display.set_mode((self.width, self.height))
-        self.screen.fill(BG_COLOR)
+        self.screen = screen
         pygame.display.set_caption("Sudoku")
         self.difficulty = difficulty
 
@@ -38,6 +39,19 @@ class Board:
             else:
                 pygame.draw.line(self.screen, LINE_COLOR, (j * SQUARE_SIZE, 0), (j * SQUARE_SIZE, HEIGHT), LINE_WIDTH)
 
+        # self.draw_numbers(self.screen)
+
+    def draw_numbers(self, screen):
+        num_font = pygame.font.SysFont('Times New Roman', VAL_FONT)
+        board = SudokuGenerator(9)
+        row = 0
+        col = 0
+        output = board.board[row][col]
+        n_text = num_font.render(str(output), 0, LINE_COLOR)
+        self.screen.blit(n_text, ((col*100), (row*100)))
+
+
+
     def select(self, row, col):
         """Marks the cell at (row, col) in the board as the current selected cell.
         Once a cell has been selected, the user can edit its value or sketched value."""
@@ -52,7 +66,6 @@ class Board:
             row = y // SQUARE_SIZE
             col = x // SQUARE_SIZE
             return row, col
-        pygame.display.update()
 
         return None
 
@@ -64,7 +77,7 @@ class Board:
         pass
 
     def sketch(self, value):
-        '''Sets the sketched value of the current selected cell equal to user entered          value. It will be displayed at the top left corner of the cell using the draw()        function.'''
+        '''Sets the sketched value of the current selected cell equal to user entered value. It will be displayed at the top left corner of the cell using the draw()        function.'''
 
         pass
 

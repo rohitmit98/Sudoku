@@ -1,4 +1,5 @@
 import math, random
+from board import *
 
 """
 This was adapted from a GeeksforGeeks article "Program for Sudoku Generator" by Aarti_Rathi and Ankur Trisal
@@ -9,7 +10,7 @@ https://www.geeksforgeeks.org/program-sudoku-generator/
 
 class SudokuGenerator:
 
-    def __init__(self, row_length):
+    def __init__(self, row_length, removed_cells):
         # rohit - a; nolan - p; holt - a
         '''
     	create a sudoku board - initialize class variables and set up the 2D board
@@ -27,7 +28,7 @@ class SudokuGenerator:
     	None
         '''
         self.row_length = row_length
-        # self.removed_cells = removed_cells
+        self.removed_cells = removed_cells
         self.box_length = math.sqrt(row_length)
         self.board = [[0 for col in range(row_length)] for rows in range(row_length)]
 
@@ -84,8 +85,8 @@ class SudokuGenerator:
 
     	Return: boolean
         '''
-        for i in range(0, 9):
-            if self.board[int(i)][int(col)] == num:
+        for i in range(len(self.board)):
+            if self.board[i][col] == num:
                 return False
         return True
 
@@ -151,8 +152,6 @@ class SudokuGenerator:
 
         Return: boolean
         '''
-        # return self.valid_in_row(row, num) and self.valid_in_col(col, num) and self.valid_in_box(row, col, num)
-
         valid = False
 
         if self.valid_in_row(row, num):
@@ -232,10 +231,10 @@ class SudokuGenerator:
 
         for num in range(1, self.row_length + 1):
             if self.is_valid(row, col, num):
-                self.board[int(row)][int(col)] = num
+                self.board[row][col] = num
                 if self.fill_remaining(row, col + 1):
                     return True
-                self.board[int(row)][int(col)] = 0
+                self.board[row][col] = 0
         return False
 
     def fill_values(self):
@@ -264,8 +263,8 @@ class SudokuGenerator:
         Parameters: None
         Return: None
         '''
-        a = random.randint(0, 8)
-        b = random.randint(0, 8)
+        a = random.randint(1, 9)
+        b = random.randint(1, 9)
         if self.board[a][b] != 0:
             self.board[a][b] = 0
 
@@ -292,10 +291,3 @@ def generate_sudoku(size, removed):
     sudoku.remove_cells()
     board = sudoku.get_board()
     return board
-
-
-#
-board = SudokuGenerator(9)
-board.fill_values()
-print(board.board)
-# output = board.print_board()
