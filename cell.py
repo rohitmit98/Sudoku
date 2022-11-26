@@ -2,13 +2,6 @@ import pygame
 from constants import *
 
 
-# pygame.init()
-# pygame.display.set_mode((width, height))
-# pygame.display.set_caption("Sudoku")
-#
-# while True:
-#     for event in pygame.event.get():
-
 class Cell:
     def __init__(self, value, row, col, screen):
         # nolan - a
@@ -16,9 +9,9 @@ class Cell:
         self.value = value
         self.row = row
         self.col = col
-        self.screen = pygame.display.set_mode((width, height))
+        self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         # font size? - Adam V
-        self.val_font = pygame.font.Font(None, val_font)
+        self.val_font = pygame.font.Font(None, VAL_FONT)
 
     def set_cell_value(self, value):
         # nolan - a
@@ -28,7 +21,7 @@ class Cell:
     def set_sketched_value(self, value):
         # nolan - a
         '''Setter for this cell’s sketched value'''
-        self.value_surf = val_font.render(str(value), 0, color)
+        self.value_surf = VAL_FONT.render(str(value), 0, COLOR)
 
     def draw(self):
         # nolan - a
