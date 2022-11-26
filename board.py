@@ -4,7 +4,6 @@ pygame.init()
 pygame.display.set_caption("Sudoku")
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
-
 # adam v - a
 class Board:
     """This class represents an entire Sudoku board. A Board object has 81 Cell objects.   """
@@ -17,30 +16,30 @@ class Board:
 
         self.width = width
         self.height = height
-        # self.screen = pygame.display.set_mode((self.width, self.height))
-        self.screen = screen
+        self.screen = pygame.display.set_mode((self.width, self.height))
+        self.screen.fill(BG_COLOR)
         pygame.display.set_caption("Sudoku")
         self.difficulty = difficulty
 
     def draw(self):
-        # nolan - a  # adam v - debug
+        # rohit - p; nolan - a; adam v - debug
         """Draws an outline of the Sudoku grid, with bold lines to delineate the 3x3 boxes. Draws every cell on this board."""
 
         # draw horizontal lines
-        for i in range(1, BOARD_ROWS):
+        for i in range(0, BOARD_ROWS + 1):
             if i % 3 == 0:
-                pygame.draw.line(self.screen, COLOR, (0, i * SQUARE_SIZE), (self.width, i * SQUARE_SIZE),
-                                 3 * LINE_WIDTH)
+                pygame.draw.line(self.screen, LINE_COLOR, (0, i * SQUARE_SIZE), (WIDTH, i * SQUARE_SIZE),
+                                 2 * LINE_WIDTH)
             else:
-                pygame.draw.line(self.screen, COLOR, (0, i * SQUARE_SIZE), (self.width, i * SQUARE_SIZE), LINE_WIDTH)
+                pygame.draw.line(self.screen, LINE_COLOR, (0, i * SQUARE_SIZE), (WIDTH, i * SQUARE_SIZE), LINE_WIDTH)
 
             # draw vertical lines
-        for j in range(1, BOARD_COLS):
+        for j in range(0, BOARD_COLS + 1):
             if j % 3 == 0:
-                pygame.draw.line(self.screen, COLOR, (j * SQUARE_SIZE, 0), (j * SQUARE_SIZE, self.height),
-                                 3 * LINE_WIDTH)
+                pygame.draw.line(self.screen, LINE_COLOR, (j * SQUARE_SIZE, 0), (j * SQUARE_SIZE, HEIGHT),
+                                 2 * LINE_WIDTH)
             else:
-                pygame.draw.line(self.screen, COLOR, (j * SQUARE_SIZE, 0), (j * SQUARE_SIZE, self.height), LINE_WIDTH)
+                pygame.draw.line(self.screen, LINE_COLOR, (j * SQUARE_SIZE, 0), (j * SQUARE_SIZE, HEIGHT), LINE_WIDTH)
 
     def select(self, row, col):
         """Marks the cell at (row, col) in the board as the current selected cell.
