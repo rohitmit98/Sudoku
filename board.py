@@ -1,8 +1,11 @@
 from cell import *
+from buttons import *
+from constants import *
 
 pygame.init()
 pygame.display.set_caption("Sudoku")
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
+
 
 # adam v - a
 class Board:
@@ -44,7 +47,6 @@ class Board:
     def select(self, row, col):
         """Marks the cell at (row, col) in the board as the current selected cell.
         Once a cell has been selected, the user can edit its value or sketched value."""
-        # if self.type ==
         pass
 
     def click(self, x, y):
