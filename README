@@ -1,0 +1,17 @@
+#tips
+self.solution = filled array of board solution
+self.board.board = array of board solution with removed cells
+
+
+THINGS NEED TO GET DONE:
+
+1. Create a list of indices locations where 0 exists on self.board.board
+1a. this will be used for knowing where users are able to edit cells
+
+2. Create PYGAME GUI to be able to input values into removed cells
+2a. pygame for highlighting cell red when selected
+2b. updating self.board.board array with user input values
+
+3. Check if board solution is correct
+3a. create winner page
+

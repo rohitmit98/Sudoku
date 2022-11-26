@@ -25,6 +25,9 @@ class Board:
         elif difficulty == 'hard':
             self.difficulty = 50
         self.board = SudokuGenerator(9, self.difficulty)
+        self.board.fill_values()
+        self.solution = [row[:] for row in self.board.board]
+
 
     def draw(self):
         # nolan - a; adam v - debug
@@ -48,7 +51,6 @@ class Board:
 
     def draw_numbers(self, screen):
         num_font = pygame.font.SysFont('Times New Roman', VAL_FONT)
-        self.board.fill_values()
         self.board.remove_cells()
         offset_x = 39
         offset_y = 20
@@ -120,6 +122,12 @@ class Board:
 
     def check_board(self):
         '''Check whether the Sudoku board is solved correctly.'''
+        if self.solution != self.board.board:
+            print(self.solution)
+            print(self.board.board)
+            print("true")
+
+
         # # adam v - p
         # for i in range(WIDTH):
         #     # check that each digit is not equal to the digit before it
