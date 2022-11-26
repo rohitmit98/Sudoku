@@ -96,7 +96,7 @@ def easy_mode():
     easy_board = Board(900, 1000, screen, 'easy')
     easy_board.draw()
     easy_board.draw_numbers(screen)
-    easy_board.check_board()
+    # easy_board.check_board()
 
     easy_mode = True
     while easy_mode is True:

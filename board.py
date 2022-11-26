@@ -27,7 +27,8 @@ class Board:
         self.board = SudokuGenerator(9, self.difficulty)
         self.board.fill_values()
         self.solution = [row[:] for row in self.board.board]
-
+        self.board.remove_cells()
+        self.empty_solution = [row[:] for row in self.board.board]
 
     def draw(self):
         # nolan - a; adam v - debug
@@ -51,7 +52,6 @@ class Board:
 
     def draw_numbers(self, screen):
         num_font = pygame.font.SysFont('Times New Roman', VAL_FONT)
-        self.board.remove_cells()
         offset_x = 39
         offset_y = 20
         for row in range(0, 9):
@@ -124,9 +124,8 @@ class Board:
         '''Check whether the Sudoku board is solved correctly.'''
         if self.solution != self.board.board:
             print(self.solution)
-            print(self.board.board)
+            print(self.empty_solution)
             print("true")
-
 
         # # adam v - p
         # for i in range(WIDTH):
@@ -137,6 +136,7 @@ class Board:
         # return True
         # pass
 
+
 '''
    solution =       [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
    empty_solution = [[0, 2, 0], [4, 0, 6], [7, 8, 0]]
@@ -146,5 +146,3 @@ class Board:
 
 
    '''
-
-
