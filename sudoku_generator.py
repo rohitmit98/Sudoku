@@ -9,7 +9,7 @@ https://www.geeksforgeeks.org/program-sudoku-generator/
 
 class SudokuGenerator:
 
-    def __init__(self, row_length):
+    def __init__(self, row_length, removed_cells):
         # rohit - a; nolan - p; holt - a
         '''
     	create a sudoku board - initialize class variables and set up the 2D board
@@ -27,7 +27,7 @@ class SudokuGenerator:
     	None
         '''
         self.row_length = row_length
-        # self.removed_cells = removed_cells
+        self.removed_cells = removed_cells
         self.box_length = math.sqrt(row_length)
         self.board = [[0 for col in range(row_length)] for rows in range(row_length)]
 
@@ -264,19 +264,18 @@ class SudokuGenerator:
         Parameters: None
         Return: None
         '''
-        # a = random.randint(0, 8)
-        # b = random.randint(0, 8)
-        # if self.board[a][b] != 0:
-        #     self.board[a][b] = 0
-        recur = True
-        while recur:
-            a = random.randint(0, 8)
-            b = random.randint(0, 8)
-            if self.board[a][b] != 0:
-                self.board[a][b] = 0
-                recur = False
-            elif self.board[a][b] == 0:
-                recur = True
+        counter = 0
+        while counter < self.removed_cells:
+            recur = True
+            while recur:
+                a = random.randint(0, 8)
+                b = random.randint(0, 8)
+                if self.board[a][b] != 0:
+                    self.board[a][b] = 0
+                    recur = False
+                    counter += 1
+                elif self.board[a][b] == 0:
+                    recur = True
 
 
 def generate_sudoku(size, removed):
@@ -301,10 +300,3 @@ def generate_sudoku(size, removed):
     sudoku.remove_cells()
     board = sudoku.get_board()
     return board
-
-
-#
-board = SudokuGenerator(9)
-board.fill_values()
-print(board.board)
-# output = board.print_board()

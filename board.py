@@ -7,7 +7,7 @@ from sudoku_generator import *
 class Board:
     """This class represents an entire Sudoku board. A Board object has 81 Cell objects.   """
 
-    def __init__(self, width, height, screen):
+    def __init__(self, width, height, screen, difficulty):
         # nolan - a # adam v - a(dbug)
         """Constructor for the Board class.
       screen is a window from PyGame.
@@ -17,6 +17,14 @@ class Board:
         self.height = height
         self.screen = screen
         pygame.display.set_caption("Sudoku")
+
+        if difficulty == 'easy':
+            self.difficulty = 30
+        elif difficulty == 'medium':
+            self.difficulty = 40
+        elif difficulty == 'hard':
+            self.difficulty = 50
+        self.board = SudokuGenerator(9, self.difficulty)
 
     def draw(self):
         # nolan - a; adam v - debug
@@ -38,54 +46,34 @@ class Board:
             else:
                 pygame.draw.line(self.screen, LINE_COLOR, (j * SQUARE_SIZE, 0), (j * SQUARE_SIZE, HEIGHT), LINE_WIDTH)
 
-    def draw_numbers(self, screen, difficulty):
+    def draw_numbers(self, screen):
         num_font = pygame.font.SysFont('Times New Roman', VAL_FONT)
-        board = SudokuGenerator(9)
-        board.fill_values()
-        solution = board.board
-        # print(solution)
-        counter = 0
-        if difficulty == 'easy':
-            while counter < 30:
-                board.remove_cells()
-                counter += 1
-            easy_empty = board.board
-            # print(easy_empty)
-        elif difficulty == 'medium':
-            while counter < 40:
-                board.remove_cells()
-                counter += 1
-        elif difficulty == 'hard':
-            while counter < 50:
-                board.remove_cells()
-                counter += 1
-
+        self.board.fill_values()
+        self.board.remove_cells()
         offset_x = 39
         offset_y = 20
         for row in range(0, 9):
             for col in range(0, 9):
-                if board.board[row][col] == 0:
+                if self.board.board[row][col] == 0:
                     continue
-                output = board.board[row][col]
+                output = self.board.board[row][col]
                 numbers = num_font.render(str(output), 0, LINE_COLOR)
                 self.screen.blit(numbers, ((col * 100) + offset_x, (row * 100) + offset_y))
-
 
     def select(self, row, col):
         """Marks the cell at (row, col) in the board as the current selected cell.
         Once a cell has been selected, the user can edit its value or sketched value."""
+
+        # USE CLICK
         pass
 
     def click(self, x, y):
-        # adam v - p
-        """If a tuple of (x, y) coordinates is within the displayed board, this function       returns a tuple of the (row, col) of the cell which was clicked. Otherwise, this       function returns None."""
-        # double check method call - Adam v
-        if self.type == pygame.MOUSEBUTTONDOWN:
-            x, y = self.pos
+        # adam v - p; rohit - a
+        """If a tuple of (x, y) coordinates is within the displayed board, this function returns a tuple of the (row, col) of the cell which was clicked. Otherwise, this function returns None."""
+        if x <= 900 and y <= 1000:
             row = y // SQUARE_SIZE
-            col = x // SQUARE_SIZE
+            col = x // SQUARE_SIZE + 1
             return row, col
-
         return None
 
     def clear(self):
@@ -96,7 +84,7 @@ class Board:
         pass
 
     def sketch(self, value):
-        '''Sets the sketched value of the current selected cell equal to user entered value. It will be displayed at the top left corner of the cell using the draw()        function.'''
+        '''Sets the sketched value of the current selected cell equal to user entered value. It will be displayed at the top left corner of the cell using the draw() function.'''
 
         pass
 
@@ -128,7 +116,6 @@ class Board:
 
     def find_empty(self):
         '''Finds an empty cell and returns its row and col as a tuple (x, y).'''
-
         pass
 
     def check_board(self):
@@ -141,3 +128,15 @@ class Board:
         #         # not sure what to loop thru and find in order to prove correct
         # return True
         # pass
+
+'''
+   solution =       [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+   empty_solution = [[0, 2, 0], [4, 0, 6], [7, 8, 0]]
+   # enumerate empty_solution list to save all 0 indexes
+
+   user_solution =  [[8, 2, 0], [4, 0, 6], [7, 8, 0]]
+
+
+   '''
+
+

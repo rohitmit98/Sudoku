@@ -1,4 +1,6 @@
 import pygame.time
+
+import board
 import buttons
 from sudoku_generator import *
 from board import *
@@ -42,9 +44,20 @@ def game_start():
 # THINGS I HAVEN'T DONE:
 # ROHIT
 '''
-1. restart/resume/exit buttons are not registering 
-2. need to implement 2D board from sudoku_generator.py onto GUI in Board class. Unsure, how to accomplish yet.
+# 3 different arrays 
+1. Keeping track of final solution
+2. Keep track of solution with removed cells separately
+3. Keep track of user_inputs 
 '''
+
+
+def pygame_events_modes():
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+
+    pygame.display.update()
 
 
 # start game by showing main menu
@@ -78,14 +91,12 @@ def menu():
 
         pygame.display.update()
 
-
 def easy_mode():
-    easy_mode = True
     screen.fill(BG_COLOR)
-    easy_board = Board(900, 1000, screen)
+    easy_board = Board(900, 1000, screen, 'easy')
     easy_board.draw()
-    easy_board.draw_numbers(screen, 'easy')
-    easy_board.check_board()
+    easy_board.draw_numbers(screen)
+    easy_mode = True
     while easy_mode is True:
 
         reset.create_button()
@@ -98,21 +109,15 @@ def easy_mode():
         if exit_.input():
             sys.exit()
 
-        for event in pygame.event.get():
-
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-
-        pygame.display.update()
+        pygame_events_modes()
 
 
 def medium_mode():
     medium_mode = True
     screen.fill(BG_COLOR)
-    medium_board = Board(900, 1000, screen)
+    medium_board = Board(900, 1000, screen, 'medium')
     medium_board.draw()
-    medium_board.draw_numbers(screen, 'medium')
+    medium_board.draw_numbers(screen)
 
     while medium_mode is True:
         reset.create_button()
@@ -125,20 +130,15 @@ def medium_mode():
         if exit_.input():
             sys.exit()
 
-        for event in pygame.event.get():
+        pygame_events_modes()
 
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-
-        pygame.display.update()
 
 def hard_mode():
     hard_mode = True
     screen.fill(BG_COLOR)
-    hard_board = Board(900, 1000, screen)
+    hard_board = Board(900, 1000, screen, 'hard')
     hard_board.draw()
-    hard_board.draw_numbers(screen, 'hard')
+    hard_board.draw_numbers(screen)
     while hard_mode is True:
 
         reset.create_button()
@@ -152,15 +152,19 @@ def hard_mode():
         if exit_.input():
             sys.exit()
 
-        for event in pygame.event.get():
+        pygame_events_modes()
 
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-
-        pygame.display.update()
 
 def winner():
     pass
 
+
 menu()
+
+# b = SudokuGenerator(9, 30)
+# solution = b.fill_values()
+# b.print_board()
+# empty_solution = b.remove_cells()
+# print()
+# b.print_board()
+# user_input_arr = []
