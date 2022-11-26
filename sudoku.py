@@ -81,10 +81,12 @@ def menu():
 
 def easy_mode():
     easy_mode = True
+    screen.fill(BG_COLOR)
+    easy_board = Board(900, 1000, screen)
+    easy_board.draw()
+    easy_board.draw_numbers(screen, 'easy')
+    easy_board.check_board()
     while easy_mode is True:
-        screen.fill(BG_COLOR)
-        easy_board = Board(900, 1000, screen, "easy")
-        easy_board.draw()
 
         reset.create_button()
         restart.create_button()
@@ -107,13 +109,13 @@ def easy_mode():
 
 def medium_mode():
     medium_mode = True
+    screen.fill(BG_COLOR)
+    medium_board = Board(900, 1000, screen)
+    medium_board.draw()
+    medium_board.draw_numbers(screen, 'medium')
+
     while medium_mode is True:
-        screen.fill(BG_COLOR)
-        medium_board = Board(900, 1000, screen, "medium")
-        medium_board.draw()
-
         reset.create_button()
-
         restart.create_button()
         if restart.input():
             menu()
@@ -133,10 +135,11 @@ def medium_mode():
 
 def hard_mode():
     hard_mode = True
+    screen.fill(BG_COLOR)
+    hard_board = Board(900, 1000, screen)
+    hard_board.draw()
+    hard_board.draw_numbers(screen, 'hard')
     while hard_mode is True:
-        screen.fill(BG_COLOR)
-        hard_board = Board(900, 1000, screen, "medium")
-        hard_board.draw()
 
         reset.create_button()
 

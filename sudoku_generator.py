@@ -251,7 +251,7 @@ class SudokuGenerator:
         self.fill_remaining(0, self.box_length)
 
     def remove_cells(self):
-        # rohit - p; nolan - a; holt - a
+        # holt - p; nolan - a; rohit - a
         '''
         Removes the appropriate number of cells from the board
         This is done by setting some values to 0
@@ -264,10 +264,19 @@ class SudokuGenerator:
         Parameters: None
         Return: None
         '''
-        a = random.randint(0, 8)
-        b = random.randint(0, 8)
-        if self.board[a][b] != 0:
-            self.board[a][b] = 0
+        # a = random.randint(0, 8)
+        # b = random.randint(0, 8)
+        # if self.board[a][b] != 0:
+        #     self.board[a][b] = 0
+        recur = True
+        while recur:
+            a = random.randint(0, 8)
+            b = random.randint(0, 8)
+            if self.board[a][b] != 0:
+                self.board[a][b] = 0
+                recur = False
+            elif self.board[a][b] == 0:
+                recur = True
 
 
 def generate_sudoku(size, removed):

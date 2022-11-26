@@ -7,7 +7,7 @@ from sudoku_generator import *
 class Board:
     """This class represents an entire Sudoku board. A Board object has 81 Cell objects.   """
 
-    def __init__(self, width, height, screen, difficulty):
+    def __init__(self, width, height, screen):
         # nolan - a # adam v - a(dbug)
         """Constructor for the Board class.
       screen is a window from PyGame.
@@ -17,7 +17,6 @@ class Board:
         self.height = height
         self.screen = screen
         pygame.display.set_caption("Sudoku")
-        self.difficulty = difficulty
 
     def draw(self):
         # nolan - a; adam v - debug
@@ -39,17 +38,37 @@ class Board:
             else:
                 pygame.draw.line(self.screen, LINE_COLOR, (j * SQUARE_SIZE, 0), (j * SQUARE_SIZE, HEIGHT), LINE_WIDTH)
 
-        # self.draw_numbers(self.screen)
-
-    def draw_numbers(self, screen):
+    def draw_numbers(self, screen, difficulty):
         num_font = pygame.font.SysFont('Times New Roman', VAL_FONT)
         board = SudokuGenerator(9)
-        row = 0
-        col = 0
-        output = board.board[row][col]
-        n_text = num_font.render(str(output), 0, LINE_COLOR)
-        self.screen.blit(n_text, ((col*100), (row*100)))
+        board.fill_values()
+        solution = board.board
+        # print(solution)
+        counter = 0
+        if difficulty == 'easy':
+            while counter < 30:
+                board.remove_cells()
+                counter += 1
+            easy_empty = board.board
+            # print(easy_empty)
+        elif difficulty == 'medium':
+            while counter < 40:
+                board.remove_cells()
+                counter += 1
+        elif difficulty == 'hard':
+            while counter < 50:
+                board.remove_cells()
+                counter += 1
 
+        offset_x = 39
+        offset_y = 20
+        for row in range(0, 9):
+            for col in range(0, 9):
+                if board.board[row][col] == 0:
+                    continue
+                output = board.board[row][col]
+                numbers = num_font.render(str(output), 0, LINE_COLOR)
+                self.screen.blit(numbers, ((col * 100) + offset_x, (row * 100) + offset_y))
 
 
     def select(self, row, col):
@@ -114,11 +133,11 @@ class Board:
 
     def check_board(self):
         '''Check whether the Sudoku board is solved correctly.'''
-        # adam v - p
-        for i in range(WIDTH):
-            # check that each digit is not equal to the digit before it
-            for j in range(HEIGHT):
-                return False
-                # not sure what to loop thru and find in order to prove correct
-        return True
-        pass
+        # # adam v - p
+        # for i in range(WIDTH):
+        #     # check that each digit is not equal to the digit before it
+        #     for j in range(HEIGHT):
+        #         return False
+        #         # not sure what to loop thru and find in order to prove correct
+        # return True
+        # pass
