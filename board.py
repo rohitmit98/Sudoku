@@ -1,10 +1,4 @@
 from cell import *
-from buttons import *
-from constants import *
-
-pygame.init()
-pygame.display.set_caption("Sudoku")
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
 
 # adam v - a
@@ -25,7 +19,7 @@ class Board:
         self.difficulty = difficulty
 
     def draw(self):
-        # rohit - p; nolan - a; adam v - debug
+        # nolan - a; adam v - debug
         """Draws an outline of the Sudoku grid, with bold lines to delineate the 3x3 boxes. Draws every cell on this board."""
 
         # draw horizontal lines

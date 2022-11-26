@@ -1,7 +1,6 @@
 import pygame.time
-
 import buttons
-from buttons import Buttons
+import board
 from sudoku_generator import *
 import sys
 
@@ -11,6 +10,7 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
 # game variables
 game_menu = True
+game_board = False
 
 # define fonts
 welcome_font = pygame.font.SysFont('Times New Roman', WELCOME_FONT)
@@ -26,6 +26,7 @@ restart = buttons.Buttons(0, 500, button_font, screen, FILL_COLOR, 'restart')
 exit_ = buttons.Buttons(200, 500, button_font, screen, FILL_COLOR, 'exit')
 
 
+# start menu text
 def game_start():
     # rohit - p;
     welcome_message = f'Welcome to Sudoku'
@@ -57,21 +58,26 @@ while running:
     if game_menu:
         screen.fill(BG_COLOR)
         game_start()
+        easy.create_button()
+        medium.create_button()
+        hard.create_button()
 
-        if easy.create_button():
+        if easy.input():
             game_menu = False
             b = Board(900, 1000, screen, 'easy')
             b.draw()
 
-        elif medium.create_button():
+        elif medium.input():
             game_menu = False
             b = Board(900, 1000, screen, 'medium')
             b.draw()
 
-        elif hard.create_button():
+        elif hard.input():
             game_menu = False
-            b = Board(900, 1000, screen, 'hard')
-            b.draw()
+            game_board = True
+            if game_board:
+                b = Board(900, 1000, screen, 'hard')
+                b.draw()
 
     # event handler
     for event in pygame.event.get():

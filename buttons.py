@@ -1,5 +1,4 @@
-from constants import *
-import pygame
+from cell import *
 
 
 class Buttons:
@@ -15,27 +14,25 @@ class Buttons:
         self.clicked = False
 
     def create_button(self):
-        action = False
-
-        # get mouse position
-        mouse = pygame.mouse.get_pos()
-        print(mouse)
-
-        # check mouseover and clicked conditions
-        if self.rect.collidepoint(mouse):
-
-            # if left mouse button clicked
-            if pygame.mouse.get_pressed()[0] == 1 and self.clicked is False:
-                self.clicked = True
-                action = True
-
-            if pygame.mouse.get_pressed()[0] == 0:
-                self.clicked = False
-
         # white rectangle
         pygame.draw.rect(self.screen, self.color, pygame.Rect(self.rect), 0)
         # black text
         self.screen.blit(self.surf, self.rect)
-        # shows rectangle coordinates
-        # print(pygame.draw.rect(screen, LINE_COLOR, pygame.Rect(rect), 2))
+        # # shows rectangle coordinates
+        # print(pygame.draw.rect(self.screen, LINE_COLOR, pygame.Rect(self.rect), 2))
+
+    def input(self):
+        action = False
+
+        # get mouse position
+        mouse = pygame.mouse.get_pos()
+
+        # check mouseover and clicked conditions
+        if self.rect.collidepoint(mouse):
+            # if left mouse button clicked
+            if pygame.mouse.get_pressed()[0] == 1 and self.clicked is False:
+                self.clicked = True
+                action = True
+        if pygame.mouse.get_pressed()[0] == 0:
+            self.clicked = False
         return action
