@@ -23,5 +23,5 @@ class Cell:
     def draw(self):
         # nolan - a
         '''Draws this cell, along with the value inside it.
-      If this cell has a nonzero value, that value is displayed.       Otherwise, no value is displayed in the cell.
+      If this cell has a nonzero value, that value is displayed. Otherwise, no value is displayed in the cell.
       The cell is outlined red if it is currently selected.'''

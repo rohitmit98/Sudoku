@@ -52,15 +52,23 @@ class Board:
 
     def draw_numbers(self, screen):
         num_font = pygame.font.SysFont('Times New Roman', VAL_FONT)
-        offset_x = 39
-        offset_y = 20
+        offset_x = 40 / 2
+        offset_y = 20 / 2
         for row in range(0, 9):
             for col in range(0, 9):
                 if self.board.board[row][col] == 0:
                     continue
                 output = self.board.board[row][col]
                 numbers = num_font.render(str(output), 0, LINE_COLOR)
-                self.screen.blit(numbers, ((col * 100) + offset_x, (row * 100) + offset_y))
+                self.screen.blit(numbers, ((col * SQUARE_SIZE) + offset_x, (row * SQUARE_SIZE) + offset_y))
+
+    def draw_box(self):
+        for i in range(BOARD_ROWS):
+            for j in range(BOARD_COLS):
+                if self.empty_solution[i][j] == 0:
+                    pygame.draw.rect(self.screen, RED, (j*SQUARE_SIZE, i*SQUARE_SIZE, 50, 50), 4)
+                else:
+                    pass
 
     def select(self, row, col):
         """Marks the cell at (row, col) in the board as the current selected cell.
@@ -72,9 +80,9 @@ class Board:
     def click(self, x, y):
         # adam v - p; rohit - a
         """If a tuple of (x, y) coordinates is within the displayed board, this function returns a tuple of the (row, col) of the cell which was clicked. Otherwise, this function returns None."""
-        if x <= 900 and y <= 1000:
+        if x <= 900 / 2 and y <= 1000 / 2:
             row = y // SQUARE_SIZE
-            col = x // SQUARE_SIZE + 1
+            col = x // SQUARE_SIZE
             return row, col
         return None
 
@@ -125,7 +133,8 @@ class Board:
         if self.solution != self.board.board:
             print(self.solution)
             print(self.empty_solution)
-            print("true")
+            print(self.empty_solution[0][0])
+            # print(sum(x.count(0) for x in self.empty_solution))
 
         # # adam v - p
         # for i in range(WIDTH):
