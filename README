@@ -1,7 +1,8 @@
 #tips
-self.solution = filled array of board solution
-self.board.board = array of board solution with removed cells
-
+THREE IMPORTANT ARRAYS:
+self.solution = solution array
+self.empty_solution = solution array with 0's
+self.board.board = user solution inputs 
 
 THINGS NEED TO GET DONE:
 
