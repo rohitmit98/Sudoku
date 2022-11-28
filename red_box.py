@@ -1,7 +1,5 @@
 import pygame
 from constants import *
-from board import *
-
 
 
 class RedBox:

@@ -3,14 +3,12 @@ import math, random
 """
 This was adapted from a GeeksforGeeks article "Program for Sudoku Generator" by Aarti_Rathi and Ankur Trisal
 https://www.geeksforgeeks.org/program-sudoku-generator/
-
 """
 
 
 class SudokuGenerator:
 
     def __init__(self, row_length, removed_cells):
-        # rohit - a; nolan - p; holt - a
         '''
     	create a sudoku board - initialize class variables and set up the 2D board
     	This should initialize:
@@ -32,7 +30,6 @@ class SudokuGenerator:
         self.board = [[0 for col in range(row_length)] for rows in range(row_length)]
 
     def print_board(self):
-        # nolan - p
         '''
         Displays the board to the console
         This is not strictly required, but it may be useful for debugging purposes
@@ -46,7 +43,6 @@ class SudokuGenerator:
             print()
 
     def valid_in_row(self, row, num):
-        # nolan - p
         '''
 	    Determines if num is contained in the specified row (horizontal) of the board
         If num is already in the specified row, return False. Otherwise, return True
@@ -63,7 +59,6 @@ class SudokuGenerator:
         return True
 
     def get_board(self):
-        # holt - p
         '''
         Returns a 2D python list of numbers which represents the board
 
@@ -76,7 +71,6 @@ class SudokuGenerator:
         return self.board
 
     def valid_in_col(self, col, num):
-        # nolan - p
         '''
 	    Determines if num is contained in the specified column (vertical) of the board
         If num is already in the specified col, return False. Otherwise, return True
@@ -93,7 +87,6 @@ class SudokuGenerator:
         return True
 
     def valid_in_box(self, row_start, col_start, num):
-        # holt - p; nolan - a
         '''
         Determines if num is contained in the 3x3 box specified on the board
         If num is in the specified box starting at (row_start, col_start), return False.
@@ -116,7 +109,6 @@ class SudokuGenerator:
         return valid
 
     def get_box(self, row, col):
-        # holt - p; nolan - a
         '''Helper method to return a 3x3 matrix of the box given a row and col.'''
         box = []
 
@@ -143,7 +135,6 @@ class SudokuGenerator:
         return box
 
     def is_valid(self, row, col, num):
-        # nolan - p; holt - a
         '''
         Determines if it is valid to enter num at (row, col) in the board
         This is done by checking that num is unused in the appropriate, row, column, and box
@@ -154,7 +145,8 @@ class SudokuGenerator:
 
         Return: boolean
         '''
-        # return self.valid_in_row(row, num) and self.valid_in_col(col, num) and self.valid_in_box(row, col, num)
+        # return self.valid_in_row(row, num) and self.valid_in_col(col, num) 
+        # and self.valid_in_box(row, col, num)
 
         valid = False
 
@@ -166,7 +158,6 @@ class SudokuGenerator:
         return valid
 
     def fill_box(self, row_start, col_start):
-        # nolan - p; holt - a
         '''
         Fills the specified 3x3 box with values
         For each position, generates a random digit which has not yet been used in the box
@@ -189,7 +180,6 @@ class SudokuGenerator:
                             self.board[x][y] = num
 
     def fill_diagonal(self):
-        # nolan - p
         '''
         Fills the three boxes along the main diagonal of the board
         These are the boxes which start at (0,0), (3,3), and (6,6)
@@ -254,7 +244,6 @@ class SudokuGenerator:
         self.fill_remaining(0, self.box_length)
 
     def remove_cells(self):
-        # holt - p; nolan - a; rohit - a
         '''
         Removes the appropriate number of cells from the board
         This is done by setting some values to 0
