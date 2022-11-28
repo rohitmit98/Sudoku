@@ -1,4 +1,5 @@
-from cell import *
+import pygame
+from constants import *
 
 
 class Buttons:

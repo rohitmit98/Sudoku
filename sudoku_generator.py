@@ -31,16 +31,6 @@ class SudokuGenerator:
         self.box_length = math.sqrt(row_length)
         self.board = [[0 for col in range(row_length)] for rows in range(row_length)]
 
-    def get_board(self):
-        # holt - p
-        '''
-    	Returns a 2D python list of numbers which represents the board
-
-    	Parameters: None
-    	Return: list[list]
-        '''
-        return self.board
-
     def print_board(self):
         # nolan - p
         '''
@@ -71,6 +61,19 @@ class SudokuGenerator:
             if i == num:
                 return False
         return True
+
+    def get_board(self):
+        # holt - p
+        '''
+        Returns a 2D python list of numbers which represents the board
+
+        Parameters: None
+        Return: list[list]
+        '''
+
+        print(self.board)
+        print(self.fill_values())
+        return self.board
 
     def valid_in_col(self, col, num):
         # nolan - p
@@ -296,7 +299,7 @@ def generate_sudoku(size, removed):
     '''
     sudoku = SudokuGenerator(size, removed)
     sudoku.fill_values()
-    board = sudoku.get_board()
+    board = get_board()
     sudoku.remove_cells()
-    board = sudoku.get_board()
+    board = get_board()
     return board

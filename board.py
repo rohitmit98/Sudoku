@@ -7,14 +7,11 @@ from sudoku_generator import *
 class Board:
     """This class represents an entire Sudoku board. A Board object has 81 Cell objects.   """
 
-    def __init__(self, width, height, screen, difficulty):
+    def __init__(self, screen, difficulty):
         # nolan - a # adam v - a(dbug)
         """Constructor for the Board class.
       screen is a window from PyGame.
       difficulty is a variable to indicate if the user chose easy, medium, or hard."""
-
-        self.width = width
-        self.height = height
         self.screen = screen
         pygame.display.set_caption("Sudoku")
 
@@ -59,6 +56,9 @@ class Board:
                 if self.board.board[row][col] == 0:
                     continue
                 output = self.board.board[row][col]
+
+                # print(self.board.board)
+
                 numbers = num_font.render(str(output), 0, LINE_COLOR)
                 self.screen.blit(numbers, ((col * SQUARE_SIZE) + offset_x, (row * SQUARE_SIZE) + offset_y))
 
@@ -66,7 +66,7 @@ class Board:
         for i in range(BOARD_ROWS):
             for j in range(BOARD_COLS):
                 if self.empty_solution[i][j] == 0:
-                    pygame.draw.rect(self.screen, RED, (j*SQUARE_SIZE, i*SQUARE_SIZE, 50, 50), 4)
+                    pygame.draw.rect(self.screen, RED, (j * SQUARE_SIZE, i * SQUARE_SIZE, 50, 50), 4)
                 else:
                     pass
 
@@ -80,49 +80,93 @@ class Board:
     def click(self, x, y):
         # adam v - p; rohit - a
         """If a tuple of (x, y) coordinates is within the displayed board, this function returns a tuple of the (row, col) of the cell which was clicked. Otherwise, this function returns None."""
-        if x <= 900 / 2 and y <= 1000 / 2:
+        if x <= 450 and y <= 450:
             row = y // SQUARE_SIZE
             col = x // SQUARE_SIZE
             return row, col
-        return None
+        return self.first_value()
 
-    def clear(self):
+    def first_value(self):
+        for row in range(0, 9):
+            for col in range(0, 9):
+                if self.empty_solution[row][col] > 0:
+                    return row, col
+
+    def first_empty(self):
+        for row in range(0, 9):
+            for col in range(0, 9):
+                if self.empty_solution[row][col] == 0:
+                    return row, col
+
+    def clear(self, x, y):
+        # holt -p (working good)
         '''Clears  the  value  cell.  Note  that  the  user  can  only  remove  the  cell      values  and  sketched  value  that  are filled by themselves.  '''
+
+        pygame.draw.rect(self.screen, BG_COLOR, pygame.Rect(y * SQUARE_SIZE + 6, x * SQUARE_SIZE + 6, 40, 40))
+
         # row, col = self.select
         # if get_board
 
-        pass
-
-    def sketch(self, value):
+    def sketch(self, row, col, value):
+        # holt -a (i took code from draw_numbers and i think it's working)
         '''Sets the sketched value of the current selected cell equal to user entered value. It will be displayed at the top left corner of the cell using the draw() function.'''
+        num_font = pygame.font.SysFont('Times New Roman', VAL_FONT_SMALL)
+        offset_x = 7
+        offset_y = 4
+        output = value
+        numbers = num_font.render(str(output), 0, GRAY)
+        self.screen.blit(numbers, ((col * SQUARE_SIZE) + offset_x, (row * SQUARE_SIZE) + offset_y))
 
-        pass
+    def sketch_cover(self):
+        # vacha - p
+        # covers holts corner sketches
+        for i in range(BOARD_ROWS):
+            for j in range(BOARD_COLS):
+                offset_x = 8
+                offset_y = 6
+                pygame.draw.rect(self.screen, (140, 33, 21), ((j * SQUARE_SIZE) + offset_y,
+                                                              (i * SQUARE_SIZE) + offset_x, 11, 11))
 
-    def place_number(self, value):
+    def place_number(self, row, col, value):
+        # holt -a (holt - i took code from draw_numbers and i think it's working) # vacha - a
         '''Sets the value of the current selected cell equal to user entered value.
         Called when the user presses the Enter key.'''
-        pass
-
-    def reset_to_original(self):
-        '''Reset all cells in the board to their original values (0 if cleared, otherwise      the corresponding digit).'''
-        pass
+        num_font = pygame.font.SysFont('Times New Roman', VAL_FONT)
+        offset_x = 40 / 2
+        offset_y = 20 / 2
+        output = value
+        # changed inputted 'enter' key number to white
+        numbers = num_font.render(str(output), 0, LINE_COLOR_2)
+        self.screen.blit(numbers, ((col * SQUARE_SIZE) + offset_x, (row * SQUARE_SIZE) + offset_y))
 
     def is_full(self):
         '''Returns a Boolean value indicating whether the board is full or not.'''
         # Adam V- p
         # need debug
-        for i in range(len(self)):
-            for j in range(len(self[0])):
-                # not sure what the underlying "blank" space is to check for
+        for row in range(0, 9):
+            for col in range(0, 9):
+                # not sure what the underlying "blank" space is supposed to check for
                 if self[i][j] == '0':
                     return False
         return True
 
         pass
 
-    def update_board(self):
+    def reset_board(self):
+        # resets user 2D-array to empty_solution array
+        self.board.board = [row[:] for row in self.empty_solution]
+        for row in range(0, 9):
+            for col in range(0, 9):
+                if self.board.board[row][col] == 0:
+                    pygame.draw.rect(self.screen, BG_COLOR, pygame.Rect(col * SQUARE_SIZE + 6, row * SQUARE_SIZE + 6, 40, 40))
+
+    def update_board(self, num, x, y):
         '''Updates the underlying 2D board with the values in all cells.'''
-        pass
+
+        self.board.board[x][y] = num
+
+        # click = update board with new number that gets appended to list from keydown event
+        return None
 
     def find_empty(self):
         '''Finds an empty cell and returns its row and col as a tuple (x, y).'''
@@ -130,28 +174,12 @@ class Board:
 
     def check_board(self):
         '''Check whether the Sudoku board is solved correctly.'''
-        if self.solution != self.board.board:
-            print(self.solution)
-            print(self.empty_solution)
-            print(self.empty_solution[0][0])
-            # print(sum(x.count(0) for x in self.empty_solution))
+        # only for actual win
+        # print(self.board.board)
 
-        # # adam v - p
-        # for i in range(WIDTH):
-        #     # check that each digit is not equal to the digit before it
-        #     for j in range(HEIGHT):
-        #         return False
-        #         # not sure what to loop thru and find in order to prove correct
-        # return True
-        # pass
+        if sum(x.count(0) for x in self.board.board) == 0:
+            if self.board.board == self.solution:
+                return True
 
-
-'''
-   solution =       [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
-   empty_solution = [[0, 2, 0], [4, 0, 6], [7, 8, 0]]
-   # enumerate empty_solution list to save all 0 indexes
-
-   user_solution =  [[8, 2, 0], [4, 0, 6], [7, 8, 0]]
-
-
-   '''
+            else:
+                return False
