@@ -111,7 +111,7 @@ class Board:
         offset_x = 7
         offset_y = 4
         output = value
-        numbers = num_font.render(str(output), 0, GRAY)
+        numbers = num_font.render(str(output), 0, WHITE)
         self.screen.blit(numbers, ((col * SQUARE_SIZE) + offset_x, (row * SQUARE_SIZE) + offset_y))
 
     def sketch_cover(self):
@@ -119,9 +119,8 @@ class Board:
             for j in range(BOARD_COLS):
                 offset_x = 8
                 offset_y = 6
-                pygame.draw.rect(self.screen, (140, 33, 21), ((j * SQUARE_SIZE) + offset_y,
-                                                              (i * SQUARE_SIZE) + offset_x, 11, 11))
-
+                pygame.draw.rect(self.screen, (140, 33, 21), ((j * SQUARE_SIZE) + offset_y, (i * SQUARE_SIZE) + offset_x, 11, 11))
+                
     def place_number(self, row, col, value):
         '''
         Sets the value of the current selected cell equal to user entered value.

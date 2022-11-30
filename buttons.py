@@ -15,12 +15,19 @@ class Buttons:
         self.clicked = False
 
     def create_button(self):
+        '''
+        Creates a button rectangle on the GUI
+        '''
         # white rectangle
         pygame.draw.rect(self.screen, self.color, pygame.Rect(self.rect), 0)
         # black text
         self.screen.blit(self.surf, self.rect)
 
     def input(self):
+        '''
+        Allows button to be clicked. 
+        Returns bool; True if clicked, False if unclicked.
+        '''
         # set variable
         action = False
 

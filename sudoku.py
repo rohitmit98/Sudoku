@@ -22,21 +22,25 @@ hard = buttons.Buttons(200 / 2, 50 / 2, button_font, screen, WHITE, 'Hard')
 reset = buttons.Buttons(-200 / 2, 500 / 2, button_font, screen, WHITE, 'reset')
 restart = buttons.Buttons(0, 500 / 2, button_font, screen, WHITE, 'restart')
 exit_ = buttons.Buttons(200 / 2, 500 / 2, button_font, screen, WHITE, 'exit')
+exit_centered = buttons.Buttons(0, 500 / 2, button_font, screen, WHITE, 'exit')
 
 
 # start menu text
 def game_start_text():
     welcome_message = f'Welcome to Sudoku'
     welcome_surf = welcome_font.render(welcome_message, 0, BLACK)
-    welcome_rect = welcome_surf.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 200 / 2))
+    welcome_rect = welcome_surf.get_rect(center=(WIDTH // 2,
+                                                 HEIGHT // 2 - 200 / 2))
     screen.blit(welcome_surf, welcome_rect)
 
     game_mode_message = f'------ Select Game Mode ------'
     game_mode_surf = screen_font.render(game_mode_message, 0, BLACK)
-    game_mode_rect = game_mode_surf.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 50 / 2))
+    game_mode_rect = game_mode_surf.get_rect(center=(WIDTH // 2,
+                                                     HEIGHT // 2 - 50 / 2))
     screen.blit(game_mode_surf, game_mode_rect)
 
 
+# game_over screen, uses bool to determine whether to show loser or winner text and respective buttons
 def game_over_screen(result):
     game_over = True
     while game_over is True:
@@ -46,7 +50,9 @@ def game_over_screen(result):
         if result is False:
             losing_message = f'YOU HAVE LOST!'
             welcome_surf = welcome_font.render(losing_message, 0, BLACK)
-            welcome_rect = welcome_surf.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 200 / 2))
+            welcome_rect = welcome_surf.get_rect(center=(WIDTH // 2,
+                                                         HEIGHT // 2 -
+                                                         200 / 2))
             screen.blit(welcome_surf, welcome_rect)
             restart.create_button()
             if restart.input():
@@ -55,10 +61,13 @@ def game_over_screen(result):
         else:
             game_mode_message = f'YOU WON!'
             game_mode_surf = screen_font.render(game_mode_message, 0, BLACK)
-            game_mode_rect = game_mode_surf.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 50 / 2))
+            game_mode_rect = game_mode_surf.get_rect(center=(WIDTH // 2,
+                                                             HEIGHT // 2 -
+                                                             50 / 2))
             screen.blit(game_mode_surf, game_mode_rect)
-            exit_.create_button()
-            if exit_.input():
+            exit_centered.create_button()
+            if exit_centered.input():
+                pygame.quit()
                 sys.exit()
 
         for event in pygame.event.get():
@@ -67,7 +76,7 @@ def game_over_screen(result):
                 sys.exit()
         pygame.display.update()
 
-        
+
 # start game by showing main menu
 def menu_screen():
     menu = True
@@ -118,6 +127,7 @@ def easy_mode_screen():
     easy_mode = True
     while easy_mode is True:
 
+        # create buttons and input conditions
         reset.create_button()
         if reset.input():
             easy_board.reset_board()
@@ -133,6 +143,12 @@ def easy_mode_screen():
         exit_.create_button()
         if exit_.input():
             sys.exit()
+
+        # check winner condition
+        winner = easy_board.check_board()
+        if winner is not None:
+            pygame.time.wait(2000)
+            easy_mode = False
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -153,13 +169,14 @@ def easy_mode_screen():
                         red_box.draw_red_box()
                         made += 1
 
-                    elif easy_board.empty_solution[x][y] == 0 and (x_old != x or y_old != y):
+                    elif easy_board.empty_solution[x][y] == 0 and (
+                            x_old != x or y_old != y):
                         red_box.delete_red_box()
                         red_box.draw_red_box()
 
                 x_old = x
                 y_old = y
-                
+
             # create sketch number and cover
             if event.type == pygame.KEYDOWN:
                 if 48 < event.key < 58:
@@ -168,24 +185,23 @@ def easy_mode_screen():
                         Board.sketch_cover(easy_board)
                         Board.sketch(easy_board, x, y, chr(key_user))
 
-                # insert sketch number into board
+                # insert sketch number into board dimensions on RETURN (Enter)
                 if 0 <= x <= 8 and 0 <= y <= 8:
-                    if event.key == pygame.K_RETURN and easy_board.empty_solution[x][y] == 0 and key_user != 48:
-                        Board.clear(easy_board, x, y)
-                        Board.place_number(easy_board, x, y, chr(key_user))
+                    if event.key == pygame.K_RETURN:
+                        if easy_board.empty_solution[x][
+                                y] == 0 and key_user != 48:
+                            Board.clear(easy_board, x, y)
+                            Board.place_number(easy_board, x, y, chr(key_user))
 
-                        # update board with keystroke
-                        num = (int(chr(key_user)))
-                        easy_board.update_board(num, x, y)
-                        key_user = 48
+                            # update board with keystroke
+                            num = (int(chr(key_user)))
+                            easy_board.update_board(num, x, y)
+                            key_user = 48
 
-                        winner = easy_board.check_board()
-                        if winner is not None:
-                            pygame.time.wait(2000)
-                            easy_mode = False
-
+                # clear sketch number and update 2D array with 0 on BACKSPACE (Delete)
                     if event.key == pygame.K_BACKSPACE:
-                        if easy_board.board.board[x][y] > 0 and easy_board.empty_solution[x][y] == 0:
+                        if easy_board.board.board[x][
+                                y] > 0 and easy_board.empty_solution[x][y] == 0:
                             easy_board.update_board(0, x, y)
                             Board.clear(easy_board, x, y)
 
@@ -198,7 +214,7 @@ def easy_mode_screen():
 
 def medium_mode_screen():
     screen.fill(BG_COLOR)
-    medium_board = Board(screen, 'easy')
+    medium_board = Board(screen, 'medium')
     medium_board.draw()
     medium_board.draw_numbers(screen)
     key_user = 48
@@ -228,6 +244,11 @@ def medium_mode_screen():
         if exit_.input():
             sys.exit()
 
+        winner = medium_board.check_board()
+        if winner is not None:
+            pygame.time.wait(2000)
+            medium_mode = False
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -247,13 +268,14 @@ def medium_mode_screen():
                         red_box.draw_red_box()
                         made += 1
 
-                    elif medium_board.empty_solution[x][y] == 0 and (x_old != x or y_old != y):
+                    elif medium_board.empty_solution[x][y] == 0 and (
+                            x_old != x or y_old != y):
                         red_box.delete_red_box()
                         red_box.draw_red_box()
 
                 x_old = x
                 y_old = y
-                
+
             # create sketch number and cover
             if event.type == pygame.KEYDOWN:
                 if 48 < event.key < 58:
@@ -264,7 +286,8 @@ def medium_mode_screen():
 
                 # insert sketch number into board
                 if 0 <= x <= 8 and 0 <= y <= 8:
-                    if event.key == pygame.K_RETURN and medium_board.empty_solution[x][y] == 0 and key_user != 48:
+                    if event.key == pygame.K_RETURN and medium_board.empty_solution[
+                            x][y] == 0 and key_user != 48:
                         Board.clear(medium_board, x, y)
                         Board.place_number(medium_board, x, y, chr(key_user))
 
@@ -273,13 +296,10 @@ def medium_mode_screen():
                         medium_board.update_board(num, x, y)
                         key_user = 48
 
-                        winner = medium_board.check_board()
-                        if winner is not None:
-                            pygame.time.wait(2000)
-                            medium_mode = False
-
                     if event.key == pygame.K_BACKSPACE:
-                        if medium_board.board.board[x][y] > 0 and medium_board.empty_solution[x][y] == 0:
+                        if medium_board.board.board[x][
+                                y] > 0 and medium_board.empty_solution[x][
+                                    y] == 0:
                             medium_board.update_board(0, x, y)
                             Board.clear(medium_board, x, y)
 
@@ -292,7 +312,7 @@ def medium_mode_screen():
 
 def hard_mode_screen():
     screen.fill(BG_COLOR)
-    hard_board = Board(screen, 'easy')
+    hard_board = Board(screen, 'hard')
     hard_board.draw()
     hard_board.draw_numbers(screen)
     key_user = 48
@@ -322,6 +342,11 @@ def hard_mode_screen():
         if exit_.input():
             sys.exit()
 
+        winner = hard_board.check_board()
+        if winner is not None:
+            pygame.time.wait(2000)
+            hard_mode = False
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -341,13 +366,14 @@ def hard_mode_screen():
                         red_box.draw_red_box()
                         made += 1
 
-                    elif hard_board.empty_solution[x][y] == 0 and (x_old != x or y_old != y):
+                    elif hard_board.empty_solution[x][y] == 0 and (
+                            x_old != x or y_old != y):
                         red_box.delete_red_box()
                         red_box.draw_red_box()
 
                 x_old = x
                 y_old = y
-                
+
             # create sketch number and cover
             if event.type == pygame.KEYDOWN:
                 if 48 < event.key < 58:
@@ -358,7 +384,8 @@ def hard_mode_screen():
 
                 # insert sketch number into board
                 if 0 <= x <= 8 and 0 <= y <= 8:
-                    if event.key == pygame.K_RETURN and hard_board.empty_solution[x][y] == 0 and key_user != 48:
+                    if event.key == pygame.K_RETURN and hard_board.empty_solution[
+                            x][y] == 0 and key_user != 48:
                         Board.clear(hard_board, x, y)
                         Board.place_number(hard_board, x, y, chr(key_user))
 
@@ -367,13 +394,9 @@ def hard_mode_screen():
                         hard_board.update_board(num, x, y)
                         key_user = 48
 
-                        winner = hard_board.check_board()
-                        if winner is not None:
-                            pygame.time.wait(2000)
-                            hard_mode = False
-
                     if event.key == pygame.K_BACKSPACE:
-                        if hard_board.board.board[x][y] > 0 and hard_board.empty_solution[x][y] == 0:
+                        if hard_board.board.board[x][
+                                y] > 0 and hard_board.empty_solution[x][y] == 0:
                             hard_board.update_board(0, x, y)
                             Board.clear(hard_board, x, y)
 

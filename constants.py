@@ -14,8 +14,7 @@ SCREEN_FONT = 40
 BUTTON_FONT = 30
 
 # COLORS 
-BG_COLOR = (140, 33, 21, 255)
-GRAY = (220, 220, 220)
-RED = (255, 0, 0)
+BG_COLOR = (140, 33, 21)
+RED = 'red'
 BLACK = 'black'
 WHITE = 'white'
