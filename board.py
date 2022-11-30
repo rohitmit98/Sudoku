@@ -51,6 +51,9 @@ class Board:
                 pygame.draw.line(self.screen, BLACK, (j * SQUARE_SIZE, 0), (j * SQUARE_SIZE, HEIGHT), LINE_WIDTH)
 
     def draw_numbers(self, screen):
+        '''
+        Draws number onto pygame GUI. 
+        '''
         num_font = pygame.font.SysFont('Times New Roman', VAL_FONT)
         offset_x = 40 / 2
         offset_y = 20 / 2
@@ -61,14 +64,6 @@ class Board:
                 output = self.board.board[row][col]
                 numbers = num_font.render(str(output), 0, BLACK)
                 self.screen.blit(numbers, ((col * SQUARE_SIZE) + offset_x, (row * SQUARE_SIZE) + offset_y))
-
-    def draw_box(self):
-        for i in range(BOARD_ROWS):
-            for j in range(BOARD_COLS):
-                if self.empty_solution[i][j] == 0:
-                    pygame.draw.rect(self.screen, RED, (j * SQUARE_SIZE, i * SQUARE_SIZE, 50, 50), 4)
-                else:
-                    pass
 
     def click(self, x, y):
         '''
@@ -82,14 +77,19 @@ class Board:
             return row, col
         return self.first_value()
 
-        # returns 
     def first_value(self):
+        '''
+        Returns row, col tuple of the first filled cell when board is initialized. 
+        '''
         for row in range(0, 9):
             for col in range(0, 9):
                 if self.empty_solution[row][col] > 0:
                     return row, col
 
     def first_empty(self):
+        '''
+        Returns row, col tuple of the first empty or "zero" cell when board is initialized.
+        '''
         for row in range(0, 9):
             for col in range(0, 9):
                 if self.empty_solution[row][col] == 0:
@@ -98,7 +98,7 @@ class Board:
     def clear(self, x, y):
         '''
         Clears the value cell. Note that the user can only remove 
-        the cell values and sketched value that arefilled by themselves.
+        the cell values and sketched value that are filled by themselves.
         '''
         pygame.draw.rect(self.screen, BG_COLOR, pygame.Rect(y * SQUARE_SIZE + 6, x * SQUARE_SIZE + 6, 40, 40))
 
@@ -115,6 +115,9 @@ class Board:
         self.screen.blit(numbers, ((col * SQUARE_SIZE) + offset_x, (row * SQUARE_SIZE) + offset_y))
 
     def sketch_cover(self):
+        '''
+        Draws a small rectangle (upper right corner) on the sketch value inside a cell.
+        '''
         for i in range(BOARD_ROWS):
             for j in range(BOARD_COLS):
                 offset_x = 8
@@ -145,7 +148,9 @@ class Board:
         return True
 
     def reset_board(self):
-        # resets user 2D-array to empty_solution array
+        '''
+        resets user 2D-array to empty_solution array
+        '''
         self.board.board = [row[:] for row in self.empty_solution]
         for row in range(0, 9):
             for col in range(0, 9):
@@ -163,6 +168,7 @@ class Board:
     def check_board(self):
         '''
         Check whether the Sudoku board is solved correctly.
+        Returns bool. True if winner, False if loser. 
         '''
         # only occurs if all numbers are filled in sudoku board
         if sum(x.count(0) for x in self.board.board) == 0:
