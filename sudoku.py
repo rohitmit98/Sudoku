@@ -207,6 +207,90 @@ def easy_mode_screen():
                         if easy_board.board.board[x][y] > 0 and easy_board.empty_solution[x][y] == 0:
                             easy_board.update_board(0, x, y)
                             Board.clear(easy_board, x, y)
+                    
+                    # allow user to navigate fillable cells using arrow keys
+                    if event.key == pygame.K_UP and easy_board.empty_solution[x-1][y] == 0:
+                        red_box = RedBox(easy_board, screen, x - 1, y)
+                    if x < 8:
+                        if event.key == pygame.K_DOWN and easy_board.empty_solution[x+1][y] == 0:
+                            red_box = RedBox(easy_board, screen, x + 1, y)
+                    if event.key == pygame.K_LEFT and easy_board.empty_solution[x][y-1] == 0:
+                        red_box = RedBox(easy_board, screen, x, y - 1)
+                    if y < 8:
+                        if event.key == pygame.K_RIGHT and easy_board.empty_solution[x][y+1] == 0:
+                            red_box = RedBox(easy_board, screen, x, y + 1)
+
+                    x_copy = x
+                    
+                    if made > 0:
+
+                        if event.key == pygame.K_UP:
+                            key_user = 48
+                            Board.sketch_cover(easy_board)
+                            column = []
+                            for i in range(x_copy):
+                                column.append(easy_board.empty_solution[x_copy-1][y])
+                                x_copy -= 1
+                            while 0 < x <= 8:
+                                if easy_board.empty_solution[x-1][y] == 0:
+                                    red_box = RedBox(easy_board, screen, x - 1, y)
+                                    red_box.delete_red_box()
+                                    red_box.draw_red_box()
+                                    x -= 1
+                                    break
+                                elif 0 not in column:
+                                    break
+                                elif easy_board.empty_solution[x-1][y] != 0:
+                                    x -= 1
+
+                        if event.key == pygame.K_DOWN:
+                            key_user = 48
+                            Board.sketch_cover(easy_board)
+                            column = []
+                            for i in reversed(range(x_copy, 8)):
+                                column.append(easy_board.empty_solution[x_copy+1][y])
+                                x_copy += 1
+                            while 0 <= x < 8:
+                                if easy_board.empty_solution[x+1][y] == 0:
+                                    red_box = RedBox(easy_board, screen, x + 1, y)
+                                    red_box.delete_red_box()
+                                    red_box.draw_red_box()
+                                    x += 1
+                                    break
+                                elif 0 not in column:
+                                    break
+                                elif easy_board.empty_solution[x+1][y] != 0:
+                                    x += 1
+
+                        if event.key == pygame.K_LEFT:
+                            key_user = 48
+                            Board.sketch_cover(easy_board)
+                            while 0 < y <= 8:
+                                if easy_board.empty_solution[x][y-1] == 0:
+                                    red_box = RedBox(easy_board, screen, x, y - 1)
+                                    red_box.delete_red_box()
+                                    red_box.draw_red_box()
+                                    y -= 1
+                                    break
+                                elif 0 not in easy_board.empty_solution[x][:y]:
+                                    break
+                                elif easy_board.empty_solution[x][y-1] != 0:
+                                    y -= 1
+
+                        if event.key == pygame.K_RIGHT:
+                            key_user = 48
+                            Board.sketch_cover(easy_board)
+                            while 0 <= y < 8:
+                                if easy_board.empty_solution[x][y+1] == 0:
+                                    red_box = RedBox(easy_board, screen, x, y + 1)
+                                    red_box.delete_red_box()
+                                    red_box.draw_red_box()
+                                    y += 1
+                                    break
+                                elif 0 not in easy_board.empty_solution[x][y+1:]:
+                                    break
+                                elif easy_board.empty_solution[x][y+1] != 0:
+                                    y += 1
 
             elif key_user == 48:
                 continue
@@ -310,6 +394,90 @@ def medium_mode_screen():
                             medium_board.update_board(0, x, y)
                             Board.clear(medium_board, x, y)
 
+                    # allow user to navigate fillable cells using arrow keys
+                    if event.key == pygame.K_UP and medium_board.empty_solution[x-1][y] == 0:
+                        red_box = RedBox(medium_board, screen, x - 1, y)
+                    if x < 8:
+                        if event.key == pygame.K_DOWN and medium_board.empty_solution[x+1][y] == 0:
+                            red_box = RedBox(medium_board, screen, x + 1, y)
+                    if event.key == pygame.K_LEFT and medium_board.empty_solution[x][y-1] == 0:
+                        red_box = RedBox(medium_board, screen, x, y - 1)
+                    if y < 8:
+                        if event.key == pygame.K_RIGHT and medium_board.empty_solution[x][y+1] == 0:
+                            red_box = RedBox(medium_board, screen, x, y + 1)
+
+                    x_copy = x
+                    
+                    if made > 0:
+
+                        if event.key == pygame.K_UP:
+                            key_user = 48
+                            Board.sketch_cover(medium_board)
+                            column = []
+                            for i in range(x_copy):
+                                column.append(medium_board.empty_solution[x_copy-1][y])
+                                x_copy -= 1
+                            while 0 < x <= 8:
+                                if medium_board.empty_solution[x-1][y] == 0:
+                                    red_box = RedBox(medium_board, screen, x - 1, y)
+                                    red_box.delete_red_box()
+                                    red_box.draw_red_box()
+                                    x -= 1
+                                    break
+                                elif 0 not in column:
+                                    break
+                                elif medium_board.empty_solution[x-1][y] != 0:
+                                    x -= 1
+
+                        if event.key == pygame.K_DOWN:
+                            key_user = 48
+                            Board.sketch_cover(medium_board)
+                            column = []
+                            for i in reversed(range(x_copy, 8)):
+                                column.append(medium_board.empty_solution[x_copy+1][y])
+                                x_copy += 1
+                            while 0 <= x < 8:
+                                if medium_board.empty_solution[x+1][y] == 0:
+                                    red_box = RedBox(medium_board, screen, x + 1, y)
+                                    red_box.delete_red_box()
+                                    red_box.draw_red_box()
+                                    x += 1
+                                    break
+                                elif 0 not in column:
+                                    break
+                                elif medium_board.empty_solution[x+1][y] != 0:
+                                    x += 1
+
+                        if event.key == pygame.K_LEFT:
+                            key_user = 48
+                            Board.sketch_cover(medium_board)
+                            while 0 < y <= 8:
+                                if medium_board.empty_solution[x][y-1] == 0:
+                                    red_box = RedBox(medium_board, screen, x, y - 1)
+                                    red_box.delete_red_box()
+                                    red_box.draw_red_box()
+                                    y -= 1
+                                    break
+                                elif 0 not in medium_board.empty_solution[x][:y]:
+                                    break
+                                elif medium_board.empty_solution[x][y-1] != 0:
+                                    y -= 1
+
+                        if event.key == pygame.K_RIGHT:
+                            key_user = 48
+                            Board.sketch_cover(medium_board)
+                            while 0 <= y < 8:
+                                if medium_board.empty_solution[x][y+1] == 0:
+                                    red_box = RedBox(medium_board, screen, x, y + 1)
+                                    red_box.delete_red_box()
+                                    red_box.draw_red_box()
+                                    y += 1
+                                    break
+                                elif 0 not in medium_board.empty_solution[x][y+1:]:
+                                    break
+                                elif medium_board.empty_solution[x][y+1] != 0:
+                                    y += 1
+
             elif key_user == 48:
                 continue
 
@@ -412,6 +580,90 @@ def hard_mode_screen():
                         if hard_board.board.board[x][y] > 0 and hard_board.empty_solution[x][y] == 0:
                             hard_board.update_board(0, x, y)
                             Board.clear(hard_board, x, y)
+
+                    # allow user to navigate fillable cells using arrow keys
+                    if event.key == pygame.K_UP and hard_board.empty_solution[x-1][y] == 0:
+                        red_box = RedBox(hard_board, screen, x - 1, y)
+                    if x < 8:
+                        if event.key == pygame.K_DOWN and hard_board.empty_solution[x+1][y] == 0:
+                            red_box = RedBox(hard_board, screen, x + 1, y)
+                    if event.key == pygame.K_LEFT and hard_board.empty_solution[x][y-1] == 0:
+                        red_box = RedBox(hard_board, screen, x, y - 1)
+                    if y < 8:
+                        if event.key == pygame.K_RIGHT and hard_board.empty_solution[x][y+1] == 0:
+                            red_box = RedBox(hard_board, screen, x, y + 1)
+
+                    x_copy = x
+                    
+                    if made > 0:
+
+                        if event.key == pygame.K_UP:
+                            key_user = 48
+                            Board.sketch_cover(hard_board)
+                            column = []
+                            for i in range(x_copy):
+                                column.append(hard_board.empty_solution[x_copy-1][y])
+                                x_copy -= 1
+                            while 0 < x <= 8:
+                                if hard_board.empty_solution[x-1][y] == 0:
+                                    red_box = RedBox(hard_board, screen, x - 1, y)
+                                    red_box.delete_red_box()
+                                    red_box.draw_red_box()
+                                    x -= 1
+                                    break
+                                elif 0 not in column:
+                                    break
+                                elif hard_board.empty_solution[x-1][y] != 0:
+                                    x -= 1
+
+                        if event.key == pygame.K_DOWN:
+                            key_user = 48
+                            Board.sketch_cover(hard_board)
+                            column = []
+                            for i in reversed(range(x_copy, 8)):
+                                column.append(hard_board.empty_solution[x_copy+1][y])
+                                x_copy += 1
+                            while 0 <= x < 8:
+                                if hard_board.empty_solution[x+1][y] == 0:
+                                    red_box = RedBox(hard_board, screen, x + 1, y)
+                                    red_box.delete_red_box()
+                                    red_box.draw_red_box()
+                                    x += 1
+                                    break
+                                elif 0 not in column:
+                                    break
+                                elif hard_board.empty_solution[x+1][y] != 0:
+                                    x += 1
+
+                        if event.key == pygame.K_LEFT:
+                            key_user = 48
+                            Board.sketch_cover(hard_board)
+                            while 0 < y <= 8:
+                                if hard_board.empty_solution[x][y-1] == 0:
+                                    red_box = RedBox(hard_board, screen, x, y - 1)
+                                    red_box.delete_red_box()
+                                    red_box.draw_red_box()
+                                    y -= 1
+                                    break
+                                elif 0 not in hard_board.empty_solution[x][:y]:
+                                    break
+                                elif hard_board.empty_solution[x][y-1] != 0:
+                                    y -= 1
+
+                        if event.key == pygame.K_RIGHT:
+                            key_user = 48
+                            Board.sketch_cover(hard_board)
+                            while 0 <= y < 8:
+                                if hard_board.empty_solution[x][y+1] == 0:
+                                    red_box = RedBox(hard_board, screen, x, y + 1)
+                                    red_box.delete_red_box()
+                                    red_box.draw_red_box()
+                                    y += 1
+                                    break
+                                elif 0 not in hard_board.empty_solution[x][y+1:]:
+                                    break
+                                elif hard_board.empty_solution[x][y+1] != 0:
+                                    y += 1
 
             elif key_user == 48:
                 continue
